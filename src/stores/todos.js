@@ -38,6 +38,7 @@ export const useTodoStore = defineStore("todos", () => {
       todos.value.unshift({ ...todo, id: currentId.value });
       isLoading.value = false;
     } catch (error) {
+      isLoading.value = false;
       console.error(error);
     }
   };
@@ -70,7 +71,10 @@ export const useTodoStore = defineStore("todos", () => {
         todos.value[index] = todo;
       }
     } catch (error) {
-      console.error(error);
+      isLoading.value = false;
+      console.log(
+        "internal server error 500 when updating id >= which is expected"
+      );
     }
   };
 
