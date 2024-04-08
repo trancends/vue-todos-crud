@@ -34,7 +34,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <form @submit.prevent="addTodo" class="flex gap-2">
+  <form @submit.prevent="addTodo" class="flex gap-2 mb-4">
     <InputText v-model="newTodo" required placeholder="new todo" />
     <Button type="submit">Add Todo</Button>
   </form>
