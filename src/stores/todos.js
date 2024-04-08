@@ -55,6 +55,23 @@ export const useTodoStore = defineStore("todos", () => {
     }
   };
 
+  const updateTodo = async (todo) => {
+    isLoading.value = true;
+    try {
+      await axios.put(
+        `https://jsonplaceholder.typicode.com/todos/${todo.id}`,
+        todo
+      );
+      isLoading.value = false;
+      const index = todos.value.findIndex((t) => t.id === todo.id);
+      if (index !== -1) {
+        todos.value[index] = todo;
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return {
     todos,
     currentPage,
@@ -62,6 +79,7 @@ export const useTodoStore = defineStore("todos", () => {
     limit,
     addTodo,
     deleteTodo,
+    updateTodo,
     fetchTodos,
   };
 });

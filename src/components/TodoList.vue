@@ -7,10 +7,11 @@ import Toast from "primevue/toast";
 import { onMounted } from "vue";
 import { useTodoStore } from "../stores/todos";
 import { useToast } from "primevue/usetoast";
+import { useRouter } from "vue-router";
 
 const toast = useToast();
 const store = useTodoStore();
-const successMessage = "Todo added successfully";
+const router = useRouter();
 
 const newTodo = ref("");
 const { todos, currentPage, isLoading, limit } = storeToRefs(store);
@@ -43,6 +44,10 @@ function removeTodo(todo) {
   store.deleteTodo(todo);
 }
 
+function goToEdit(todo) {
+  router.push(`/edit/${todo.id}`);
+}
+
 function goToPreviousPage() {
   if (currentPage.value > 0) {
     currentPage.value -= 1;
@@ -66,12 +71,12 @@ onMounted(() => {
   <div class="flex flex-col items-center w-9/12 mx-auto">
     <form @submit.prevent="addTodo" class="flex gap-2 mb-4">
       <InputText v-model="newTodo" required placeholder="new todo" />
-      <Toast :message="successMessage" />
+      <Toast />
       <Button type="submit">
-        <i v-if="store.isLoading" class="pi pi-spin pi-spinner mr-2"></i>
+        <i v-if="isLoading" class="pi pi-spin pi-spinner mr-2"></i>
         <i v-else class="pi pi-plus mr-2"></i>
-        Add Todo</Button
-      >
+        Add Todo
+      </Button>
     </form>
     <div class="flex justify-center w-full">
       <ul class="w-full">
@@ -86,13 +91,16 @@ onMounted(() => {
             {{ todo.title }}
           </div>
           <div class="flex justify-center px-3 gap-1">
-            <Button class="p-1" icon="pi pi-file-edit" severity="help" />
             <Button
               class="p-1"
-              icon="pi pi-trash"
-              severity="danger"
-              @click="removeTodo(todo)"
+              icon="pi pi-file-edit"
+              severity="help"
+              @click="goToEdit(todo)"
             />
+            <Button class="p-1" severity="danger" @click="removeTodo(todo)">
+              <i v-if="isLoading" class="pi pi-spin pi-spinner"></i>
+              <i v-else class="pi pi-trash"></i
+            ></Button>
           </div>
         </li>
       </ul>

@@ -10,6 +10,7 @@ import panel from "./panel";
 import orderlist from "./orderlist";
 import inputtext from "./inputtext";
 import textarea from "./textarea";
+import checkbox from "./checkbox";
 
 export default {
   global,
@@ -24,4 +25,5 @@ export default {
   orderlist,
   inputtext,
   textarea,
+  checkbox,
 };
