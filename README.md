@@ -1,5 +1,12 @@
 # vue-crud
 
+- State management with Pinia (https://pinia.vuejs.org/)
+- Router with Vue Router (https://router.vuejs.org/)
+- Vue 3 (https://vuejs.org/)
+- Vite (https://vitejs.dev/)
+- UI Components with PrimeVue (https://www.primevue.org)
+- TailwindCSS (https://tailwindcss.com/)
+
 This template should help get you started developing with Vue 3 in Vite.
 
 ## Recommended IDE Setup
