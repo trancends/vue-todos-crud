@@ -8,8 +8,12 @@ import TheHeading from "./components/TheHeading.vue";
     <header>
       <TheHeading />
       <div class="container mx-auto my-4">
-        <nav>
-          <RouterLink to="/" class="mx-4">Home</RouterLink>
+        <nav class="my-8">
+          <RouterLink
+            to="/"
+            class="bg-indigo-500 text-white p-4 rounded-md text-xl hover:bg-indigo-600"
+            ><i class="pi pi-home"></i> Home</RouterLink
+          >
         </nav>
       </div>
     </header>
