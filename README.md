@@ -1,5 +1,7 @@
 # vue-crud
 
+by Benedictus Jullian Pradana
+
 - State management with Pinia (https://pinia.vuejs.org/)
 - Router with Vue Router (https://router.vuejs.org/)
 - Vue 3 (https://vuejs.org/)
