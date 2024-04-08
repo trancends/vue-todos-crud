@@ -1,6 +1,7 @@
 <script setup>
 import { ref } from "vue";
-
+import Button from "primevue/button";
+import InputText from "primevue/inputtext";
 // give each todo a unique id
 let id = 0;
 
@@ -23,13 +24,20 @@ function removeTodo(todo) {
 
 <template>
   <form @submit.prevent="addTodo">
-    <input v-model="newTodo" required placeholder="new todo" />
-    <button>Add Todo</button>
+    <InputText v-model="newTodo" required placeholder="new todo" />
+    <Button>Add Todo</Button>
   </form>
   <ul>
-    <li v-for="todo in todos" :key="todo.id">
-      {{ todo.text }}
-      <button @click="removeTodo(todo)">X</button>
+    <li v-for="todo in todos" :key="todo.id" class="grid grid-cols-2 my-2">
+      <div class="flex items-center">
+        {{ todo.text }}
+      </div>
+      <Button
+        class="p-1"
+        icon="pi pi-trash"
+        severity="danger"
+        @click="removeTodo(todo)"
+      />
     </li>
   </ul>
 </template>
