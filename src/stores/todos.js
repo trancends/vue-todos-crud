@@ -5,7 +5,9 @@ import axios from "axios";
 export const useTodoStore = defineStore("todos", () => {
   const todos = ref([]);
   const currentPage = ref(0);
+  const currentId = ref(200);
   const limit = ref(10);
+  const isLoading = ref(false);
   const fetchTodos = async () => {
     try {
       const response = await fetch(
@@ -24,27 +26,42 @@ export const useTodoStore = defineStore("todos", () => {
   };
 
   const addTodo = async (todo) => {
+    isLoading.value = true;
     try {
+      console.log(isLoading.value);
       const response = await axios.post(
         `https://jsonplaceholder.typicode.com/todos`,
         todo
       );
-      todos.value.push(response.data);
+      // push new todo with currentId++
+      currentId.value++;
+      todos.value.unshift({ ...todo, id: currentId.value });
+      isLoading.value = false;
     } catch (error) {
       console.error(error);
     }
   };
 
-  function nextPage() {
-    if (currentPage.value < todos.value.length / limit.value) {
-      currentPage.value += 1;
+  const deleteTodo = async (todo) => {
+    isLoading.value = true;
+    try {
+      await axios.delete(
+        `https://jsonplaceholder.typicode.com/todos/${todo.id}`
+      );
+      todos.value = todos.value.filter((t) => t.id !== todo.id);
+      isLoading.value = false;
+    } catch (error) {
+      console.error(error);
     }
-  }
-  function prevPage() {
-    if (currentPage.value > 0) {
-      currentPage.value -= 1;
-    }
-  }
+  };
 
-  return { todos, currentPage, limit, addTodo, fetchTodos, nextPage, prevPage };
+  return {
+    todos,
+    currentPage,
+    isLoading,
+    limit,
+    addTodo,
+    deleteTodo,
+    fetchTodos,
+  };
 });

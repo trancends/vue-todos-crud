@@ -6,13 +6,14 @@ import InputText from "primevue/inputtext";
 import Toast from "primevue/toast";
 import { onMounted } from "vue";
 import { useTodoStore } from "../stores/todos";
+import { useToast } from "primevue/usetoast";
 
+const toast = useToast();
 const store = useTodoStore();
-// give each todo a unique id
-let id = 0;
+const successMessage = "Todo added successfully";
 
 const newTodo = ref("");
-const { todos, currentPage, limit } = storeToRefs(store);
+const { todos, currentPage, isLoading, limit } = storeToRefs(store);
 
 // Computed property for the current slice of todos
 const visibleTodos = computed(() => {
@@ -22,12 +23,24 @@ const visibleTodos = computed(() => {
 });
 
 function addTodo() {
+  toast.add({
+    severity: "success",
+    summary: "Todo Added",
+    detail: "Todo added successfully",
+    life: 3000,
+  });
   store.addTodo({ title: newTodo.value, completed: false, userId: 1 });
   newTodo.value = "";
 }
 
 function removeTodo(todo) {
-  todos.value = todos.value.filter((t) => t !== todo);
+  toast.add({
+    severity: "error",
+    summary: "Todo Deleted",
+    detail: "Todo deleted successfully",
+    life: 3000,
+  });
+  store.deleteTodo(todo);
 }
 
 function goToPreviousPage() {
@@ -53,31 +66,37 @@ onMounted(() => {
   <div class="flex flex-col items-center w-9/12 mx-auto">
     <form @submit.prevent="addTodo" class="flex gap-2 mb-4">
       <InputText v-model="newTodo" required placeholder="new todo" />
-      <Button type="submit">Add Todo</Button>
-    </form>
-    <div class="flex justify-center w-9/12 mx-auto"></div>
-    <ul>
-      <li
-        v-for="todo in visibleTodos"
-        :key="todo.id"
-        class="grid grid-cols-5 my-2 justify-center"
+      <Toast :message="successMessage" />
+      <Button type="submit">
+        <i v-if="store.isLoading" class="pi pi-spin pi-spinner mr-2"></i>
+        <i v-else class="pi pi-plus mr-2"></i>
+        Add Todo</Button
       >
-        <div
-          class="col-span-4 flex items-center px-3 rounded-md bg-slate-50 border boder-solid border-indigo-500"
+    </form>
+    <div class="flex justify-center w-full">
+      <ul class="w-full">
+        <li
+          v-for="todo in visibleTodos"
+          :key="todo.id"
+          class="grid grid-cols-5 my-2 justify-center"
         >
-          {{ todo.title }}
-        </div>
-        <div class="flex justify-center px-3 gap-1">
-          <Button class="p-1" icon="pi pi-file-edit" severity="help" />
-          <Button
-            class="p-1"
-            icon="pi pi-trash"
-            severity="danger"
-            @click="removeTodo(todo)"
-          />
-        </div>
-      </li>
-    </ul>
+          <div
+            class="col-span-4 flex items-center px-3 rounded-md bg-slate-50 border boder-solid border-indigo-500"
+          >
+            {{ todo.title }}
+          </div>
+          <div class="flex justify-center px-3 gap-1">
+            <Button class="p-1" icon="pi pi-file-edit" severity="help" />
+            <Button
+              class="p-1"
+              icon="pi pi-trash"
+              severity="danger"
+              @click="removeTodo(todo)"
+            />
+          </div>
+        </li>
+      </ul>
+    </div>
   </div>
   <div class="flex justify-center w-9/12 mx-auto gap-2">
     <Button @click="goToPreviousPage" :disabled="currentPage === 0">
