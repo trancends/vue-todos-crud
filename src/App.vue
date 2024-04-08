@@ -7,9 +7,9 @@ import TheHeading from "./components/TheHeading.vue";
   <div class="p-4">
     <header>
       <TheHeading />
-      <div class="container mx-auto">
-        <nav flex flex-row>
-          <RouterLink to="/">Home</RouterLink>
+      <div class="container mx-auto my-4">
+        <nav>
+          <RouterLink to="/" class="mx-4">Home</RouterLink>
           <RouterLink to="/about">About</RouterLink>
         </nav>
       </div>

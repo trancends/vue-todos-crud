@@ -1,14 +1,7 @@
 <template>
-  <h1 class="text-4xl font-bold text-center bg-purple-600 text-white">
+  <h1 class="text-4xl font-bold text-center bg-indigo-500 text-white p-4">
     Todo App
   </h1>
 </template>
 
-<style>
-/* h1 {
-    font-size: 2.25rem;
-    line-height: 2.5rem;
-    font-weight: 700;
-    text-align: center;
-  } */
-</style>
+<style></style>
