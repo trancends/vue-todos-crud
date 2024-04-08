@@ -56,6 +56,7 @@ export const useTodoStore = defineStore("todos", () => {
   };
 
   const updateTodo = async (todo) => {
+    console.log(todo);
     isLoading.value = true;
     try {
       await axios.put(
@@ -64,6 +65,7 @@ export const useTodoStore = defineStore("todos", () => {
       );
       isLoading.value = false;
       const index = todos.value.findIndex((t) => t.id === todo.id);
+      console.log(index);
       if (index !== -1) {
         todos.value[index] = todo;
       }

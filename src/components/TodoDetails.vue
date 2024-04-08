@@ -7,6 +7,7 @@ import InputText from "primevue/inputtext";
 import Toast from "primevue/toast";
 import Button from "primevue/button";
 import Checkbox from "primevue/checkbox";
+import { onMounted } from "vue";
 
 const route = useRoute();
 const router = useRouter();
@@ -27,10 +28,14 @@ const editTodo = () => {
 };
 
 const Log = (todo) => {
-  console.log(todo);
+  console.log(`onChange: ${todo.completed}, value: ${todo}`);
 };
 
 const todo = ref(store.todos.find((t) => t.id === parseInt(route.params.id)));
+
+onMounted(() => {
+  console.log(`Todo ID: ${route.params.id} todo: ${todo.value}`);
+});
 </script>
 <template>
   <div v-if="todo">
@@ -47,8 +52,10 @@ const todo = ref(store.todos.find((t) => t.id === parseInt(route.params.id)));
           <Checkbox
             class="col-span-1"
             v-model="todo.completed"
-            :binary="true"
             input-id="completed"
+            :binary="true"
+            :value="todo.completed"
+            @change="Log(todo)"
           />
           <label for="completed" class="ml-2">Completed</label>
         </div>
